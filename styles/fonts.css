@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'YekanBakhBold';
+    src: url(../fonts/YekanBakhBold.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'YekanBakhHeavy';
+    src: url(../fonts/YekanBakhHeavy.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'YekanBakhMedium';
+    src: url(../fonts/YekanBakhMedium.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'VazirmatnBlack';
+    src: url(../fonts/webfonts/Vazirmatn-Black.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnBold';
+    src: url(../fonts/webfonts/Vazirmatn-Bold.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnExtraBold';
+    src: url(../fonts/webfonts/Vazirmatn-ExtraBold.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnExtraLight';
+    src: url(../fonts/webfonts/Vazirmatn-ExtraLight.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnLight';
+    src: url(../fonts/webfonts/Vazirmatn-Light.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnMedium';
+    src: url(../fonts/webfonts/Vazirmatn-Medium.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'VazirmatnRegular';
+    src:url(../fonts/webfonts/Vazirmatn-Regular.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnSemiBold';
+    src: url(../fonts/webfonts/Vazirmatn-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'VazirmatnThin';
+    src: url(../fonts/webfonts/Vazirmatn-Thin.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url(../fonts/webfonts/Vazirmatn[wght].woff2) format('woff2');
+}
+
+

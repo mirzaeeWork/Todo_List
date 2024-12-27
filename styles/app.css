@@ -1,0 +1,559 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --text-black: #212121;
+    --color-white: #ffffff;
+    --color-gray: #ece9e9;
+
+}
+
+body {
+    background-color: var(--color-white);
+    font-family: YekanBakhMedium, Arial, Helvetica, sans-serif;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+
+/* Header */
+header{
+    position: sticky;
+    top: 0;
+    height: 0;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 5rem;
+    background-color: var(--text-black);
+    padding: 0 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo__menu {
+    margin-right: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-direction: row-reverse;
+    text-decoration: none;
+}
+
+.logo .logo__image,
+.logo__menu {
+    height: 2.5rem;
+    margin-top: -10px;
+}
+
+.logo h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-white);
+}
+
+header ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    gap: 5px;
+}
+
+.navigation__link:link,
+.navigation__link:visited {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    padding: .75rem 1.5rem 0.52rem;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    background-image: linear-gradient(120deg, transparent 0%, transparent 50%, var(--color-white) 50%);
+    background-size: 230%;
+    transition: all .4s;
+}
+
+.navigation__link:hover,
+.navigation__link:active {
+    text-transform: uppercase;
+    background-position: 100%;
+    transform: translateX(1rem) skewX(8deg);
+    color: var(--text-black);
+}
+
+.user-info {
+    position: relative;
+    font-size: 20px;
+    font-weight: 500;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 6px;
+    color: #fff;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    background-color: var(--text-black);
+    cursor: pointer;
+    perspective: 500px;
+    /* برای نمایش سه‌بعدی */
+}
+
+.user-info::after {
+    content: var(--user-name, '');
+    position: absolute;
+    bottom: -60px;
+    left: 50%;    /* مرکز کردن عنصر */
+    transform: translateX(-50%) rotateY(90deg);    /* چرخش 90 درجه */
+    transform-origin: center;    /* مرکز چرخش */
+    padding: 1rem 0.75rem;
+    background-color: var(--color-gray);
+    color: var(--text-black);    /* متن سفید */
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.35s ease;    /* انیمیشن چرخش */
+}
+
+
+.user-info:hover::after {
+    transform: translateX(-50%) rotateY(0);    /* باز شدن با چرخش */
+    opacity: 1;
+    visibility: visible;
+}
+
+.log-out-Link:link,
+.log-out-Link:visited {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    transition: all .4s;
+    margin-left: 10px;
+    padding-top: 6px;
+
+}
+
+.user-info,
+.log-out-Link {
+    display: none;
+}
+
+
+/* Popup */
+.popup,.menubar {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s
+}
+
+.popup:target,.menubar:target {
+    opacity: 1;
+    visibility: visible
+}
+
+.popup__background,.menubar__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: transparent;
+}
+
+
+
+/* Login Form */
+.login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+    transition: all .5s .2s;
+    width: 27%;
+    padding: 2.5rem 3rem;
+    border-radius: 10px;
+    background-color: var(--color-white);
+    box-shadow: 10px 10px 20px #868788, -10px -10px 20px #98a4b1;
+    z-index: 1;
+}
+
+.popup:target .login-form {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+}
+
+
+.login-form.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.login-form-logo {
+    background: #5a5567;
+    text-align: center;
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    margin: 0 auto 1rem auto;
+    padding: .3rem;
+    border-radius: 50%;
+    box-shadow: 0px 0px 2px #4c474c, 0px 0px 0px 5px #7f9db9, 8px 8px 18px #bbbcbd, -8px -8px 18px #afb2b6;
+}
+
+.login-form-logo img {
+    width: 100%;
+    height: 100%;
+    transform: rotate(30deg);
+    object-fit: fill;
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.login-form input {
+    width: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 18px;
+    padding: 17.5px 17.5px 17.5px 5px;
+}
+
+.user-name,
+.password {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+    box-shadow: 5px 5px 10px #bebcbc, -5px -5px 10px #c2d2e4;
+    border-radius: 25px;
+}
+
+
+.login-form svg {
+    height: 30px;
+    margin: 3px 10px 5px 20px;
+}
+
+button {
+    border: none;
+    border-radius: 25px;
+    width: 100%;
+    height: 60px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #F8F8FF;
+    background: #4A90E2;
+    box-shadow: 3px 3px 8px #96a1a1, -3px -3px 8px #91b4dd;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    outline: none;
+
+}
+
+button:hover {
+    background: #3B7BCC;
+    font-size: 25px;
+    box-shadow: 3px 3px 8px #828b8b, -3px -3px 8px #91b4dd;
+
+}
+
+.link {
+    text-align: center;
+
+}
+
+.link a {
+    text-decoration: none;
+    color: #c5c3c3;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    outline: none;
+
+}
+
+.link a:hover {
+    color: var(--text-black)
+}
+
+/* Alert */
+.alert {
+    position: absolute;
+    z-index: 120;
+    width: 40%;
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1rem;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.35s ease;
+}
+
+.alert.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Menubar */
+.menubar__info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    width: 0;
+    background-color: var(--color-white);
+    padding: 2rem 1rem;
+    transform: translateX(-100%); /* حالت اولیه */
+    width: 0; /* عرض اولیه */
+    transition: all 0.35s ease; /* برای تغییرات نرم */
+    z-index: 1;
+    border-top-right-radius: 25px;
+}
+
+/* هنگامی که منو فعال شود */
+.menubar:target .menubar__info {
+    transform: translateX(0);
+    width: 250px; /* عرض نهایی منو */
+}
+
+.menubar__info h2 {
+    text-align: center;
+    color: var(--text-black);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.menubar__info ul {
+    list-style: none;
+    gap: 20px;
+}
+
+.menubar__info a{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-decoration: none;
+    color: var(--text-black);
+}
+
+.menubar__info li img{
+    height: 2rem;
+}
+
+.menubar__info a span{
+    margin-top: 5px;
+}
+
+
+@media (max-width:1350px) {
+
+    /* Login Form */
+    .login-form {
+        width: 40%;
+    }
+
+    /* Alert */
+    .alert {
+        width: 50%;
+    }
+}
+
+
+@media (max-width:1024px) {
+
+    /* Header */
+    .logo h2 {
+        display: none;
+    }
+
+
+    /* Login Form */
+    .login-form {
+        width: 50%;
+    }
+
+    /* Alert */
+    .alert {
+        width: 60%;
+    }
+}
+
+@media (max-width:768px) {
+
+    /* Login Form */
+    .login-form {
+        width: 60%;
+    }
+}
+
+@media (max-width:640px) {
+
+    /* Header */
+    header nav {
+        padding: 0 1rem;
+    }
+
+    .logo .logo__image {
+        height: 2.2rem;
+        margin-top: -10px;
+    }
+
+    header ul {
+        gap: 8px;
+    }
+
+    .navigation__link:link,
+    .navigation__link:visited {
+        font-size: 14px;
+        font-weight: 600;
+        padding: .75rem 0.75rem 0.52rem;
+        color: #fff;
+        background-image: linear-gradient(120deg, transparent 0%, transparent 50%, var(--color-white) 50%);
+        background-size: 250%;
+    }
+
+    .navigation__link:hover,
+    .navigation__link:active {
+        transform: translateX(0.5rem) skewX(8deg);
+        color: var(--text-black);
+    }
+
+    .user-info {
+        font-size: 18px;
+        width: 35px;
+        height: 35px;
+        padding-top: 5px;
+    }
+
+
+    .log-out-Link:link,
+    .log-out-Link:visited {
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 5px;
+
+    }
+
+
+    /* Login Form */
+    .login-form {
+        width: 70%;
+
+    }
+
+    .login-form-logo {
+        width: 4rem;
+        height: 4rem;
+        margin: 0 auto 0.75rem auto;
+        padding: .3rem;
+    }
+
+    .login-form-logo img {
+        width: 100%;
+        height: 100%;
+        transform: rotate(30deg);
+        object-fit: fill;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .user-name,
+    .password {
+        margin-bottom: 1.5rem;
+    }
+
+
+    .login-form input {
+        width: 100%;
+        border: none;
+        background: none;
+        outline: none;
+        font-size: 16px;
+        padding: 15px 15px 15px 3px;
+    }
+
+    button {
+        height: 45px;
+        font-size: 20px;
+    }
+
+    button:hover {
+        font-size: 22px;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: #c5c3c3;
+        font-size: 1rem;
+    }
+
+    /* Alert */
+    .alert {
+        width: 65%;
+    }
+
+
+}
+
+
+@media (max-width:480px) {
+
+    /* Login Form */
+    .login-form {
+        width: 90%;
+        padding: 2.5rem 2rem;
+    }
+
+    /* Alert */
+    .alert {
+        width: 75%;
+    }
+
+}
