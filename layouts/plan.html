@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo-List</title>
+    <link
+      rel="shortcut icon"
+      href="../images/logo-sm.ico"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../styles/fonts.css" />
+    <link rel="stylesheet" href="../styles/plan.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="#menubar">
+            <img class="logo__menu" src="../images/menu.svg" alt="" />
+          </a>
+          <a href="../index.html">
+            <h2>Todo-List</h2>
+            <img class="logo__image" src="../images/logo-sm.png" alt="" />
+          </a>
+        </div>
+        <ul>
+          <li>
+            <a class="navigation__link loginLink" href="#popup">Log in</a>
+          </li>
+          <li>
+            <a class="navigation__link signupLink" href="#popup">Sign up</a>
+          </li>
+          <li>
+            <p class="user-info"></p>
+          </li>
+          <li><a class="log-out-Link" href="#">Log out</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Header -->
+
+    <!-- Menubar  -->
+    <aside class="menubar" id="menubar">
+      <a href="#" class="menubar__background"></a>
+
+      <div class="menubar__info">
+        <h2>Welcome 😃</h2>
+        <ul>
+          <li>
+            <a href="#"
+              ><img src="../images/planing.svg" alt="planing" />
+              <span>planing</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <!-- Menubar  -->
+
+    <!-- paln page -->
+    <main class="plan">
+      <div class="plan__list">
+        <div class="addList">
+          <button class="addList__btn" type="button">
+            <img src="../images/add_arrow.svg" alt="" />
+            Add a list
+          </button>
+        </div>
+        <!-- plan__list__form -->
+        <form class="plan__list__form">
+          <textarea
+            class="form__addList__input"
+            spellcheck="false"
+            placeholder="Enter list name…"
+          ></textarea>
+          <div class="form__btns">
+            <button class="form__addList__btn__add">Add list</button>
+            <button class="form__addList__btn__delet" type="button">
+              <img src="../images/close_icon.svg" alt="" />
+            </button>
+          </div>
+        </form>
+        <!-- plan__show__list -->
+        <article class="plan__show__list">
+          <div class="list__title">
+            <h2 class="list__title__h2"></h2>
+            <span class="list__title__span">...</span>
+            <div class="plan__show__menuList active">
+              <img
+                class="plan__showList__delete"
+                src="../images/delete_icon.svg"
+                alt=""
+              />
+            </div>
+          </div>
+          <textarea
+            class="plan__show__input"
+            placeholder="Enter list name…"
+          ></textarea>
+          <ul class="plan__cards">
+            <li>
+              <form class="plan__cards__form">
+                <div class="plan__card">
+                  <!-- disabled -->
+                  <textarea
+                    class="form__addcard__input"
+                    placeholder="Enter a title card"
+                  ></textarea>
+                  <img
+                    class="plan__card__edit"
+                    src="../images/edit_icon.svg"
+                    alt=""
+                  />
+                  <img
+                    class="plan__card__delete"
+                    src="../images/delete_icon.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="form__card__btns">
+                  <button class="form__addCard__btn__add">
+                    <img src="../images/add_arrow.svg" alt="" />
+                    Add Card
+                  </button>
+                  <button class="form__addCard__btn__delet" type="button">
+                    <img src="../images/close_icon.svg" alt="" />
+                  </button>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </main>
+    <!-- paln page -->
+
+    <!-- Log in and Sign up -->
+    <div class="popup" id="popup">
+      <a href="#" class="popup__background"></a>
+      <form class="login-form loginForm">
+        <div class="login-form-logo">
+          <img src="../images/LogoMirzaei.png" alt="" />
+        </div>
+        <div class="title">Log in</div>
+        <div class="user-name">
+          <img src="../images/userNameIcon.svg" alt="userName" />
+          <input type="text" class="user-input" placeholder="User name" />
+        </div>
+        <div class="password">
+          <img src="../images/passwordIcon.svg" alt="userName" />
+          <input
+            type="password"
+            class="password-input"
+            placeholder="Password"
+          />
+        </div>
+        <button class="login-form__btn">login</button>
+        <div class="link">
+          <a href="#popup">Sign up</a>
+        </div>
+      </form>
+      <form class="login-form hidden signupForm">
+        <div class="login-form-logo">
+          <img src="../images/LogoMirzaei.png" alt="" />
+        </div>
+        <div class="title">Sign up</div>
+        <div class="user-name">
+          <img src="../images/userNameIcon.svg" alt="userName" />
+          <input type="text" class="user-input" placeholder="User name" />
+        </div>
+        <div class="password">
+          <img src="../images/passwordIcon.svg" alt="userName" />
+          <input
+            type="password"
+            class="password-input"
+            placeholder="Password"
+          />
+        </div>
+        <button class="login-form__btn">Sign up</button>
+        <div class="link">
+          <a href="#popup">Log in</a>
+        </div>
+      </form>
+    </div>
+    <!-- Log in and Sign up -->
+
+    <!-- Alert -->
+    <div class="alert">
+      <p class="alert__message"></p>
+    </div>
+    <!-- Alert -->
+
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/plan.js"></script>
+  </body>
+</html>

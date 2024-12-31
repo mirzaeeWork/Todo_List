@@ -1,0 +1,271 @@
+/* paln page */
+.plan {
+  margin-top: 6.5rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 2rem 0 2.5rem;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  scrollbar-color: var(--text-black) var(--color-white);
+  scrollbar-width: thin;
+}
+
+.plan__list {
+  width: 272px;
+  border-radius: 12px;
+}
+
+.addList {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.35s ease-in;
+}
+
+/* addList */
+.addList__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+  width: 100%;
+  height: 45px;
+  cursor: pointer;
+  border-radius: 25px;
+  color: #f8f8ff;
+  background: #4a90e2;
+  box-shadow: 1px 1px 5px #96a1a1, -1px -1px 5px #91b4dd;
+  border: none;
+  transition: all 0.35s ease-in;
+}
+
+.addList__btn:hover {
+  font-size: 16px;
+}
+
+.addList__btn img {
+  height: 20px;
+}
+
+/* plan__list */
+.plan__list__form,
+.plan__show__list {
+  display: none;
+  box-sizing: border-box;
+  width: 272px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #f1f2f4;
+  box-shadow: 0px 1px 5px #0a255240, 0px 0px 5px #adbad04f;
+  transition: all 0.35s ease;
+  position: relative;
+}
+
+.form__addList__input {
+  width: 100%;
+  height: 32px;
+  min-height: 20px;
+  max-height: 256px;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #172b4d; /* رنگ متن */
+  font-size: 16px;
+  font-weight: 600;
+  resize: none;
+  background-color: #fff; /* رنگ پس‌زمینه */
+  border: none;
+  box-shadow: inset 0 0 0 1px #091e4224; /* سایه داخلی */
+  display: block;
+  line-height: 20px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: all 85ms ease;
+}
+
+.form__btns,.form__card__btns {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  border-radius: 4px;
+  gap: 4px;
+}
+
+.form__btns{
+  justify-content: space-evenly;
+
+}
+
+.form__addList__btn__add,.form__addCard__btn__add {
+  border: none;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 400;
+  height: 32px;
+  width: 72px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #f8f8ff;
+  background: #4a90e2;
+  transition: all 85ms ease;
+  margin-bottom: 0;
+}
+
+.form__addList__btn__add:hover,
+.form__addList__btn__delet:hover {
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.form__addList__btn__delet,.form__addCard__btn__delet {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: transparent;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+
+.list__title {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list__title__h2,
+.plan__show__input,.form__addcard__input {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+  padding: 6px 8px 6px 12px;
+}
+
+.list__title__span{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.plan__show__menuList{
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  right: -65px;
+  background-color: #f1f2f4;
+  transition: all 0.35s ease;
+  box-shadow: 0px 1px 5px #0a255240, 0px 0px 5px #adbad04f;
+}
+
+.plan__show__menuList::before{
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(to right bottom, #0a255240 0%, #adbad04f 75%);
+  box-shadow: 0px 1px 5px #0a255240, 0px 0px 5px #adbad04f;
+  clip-path: polygon(100% 0, 0 45%, 100% 100%);
+  position: absolute;
+  z-index: -1;
+  left: -10px;
+  top: 50%;
+  transition: all 0.35s 0.1s ease;
+  transform: translateY(-50%);
+}
+
+.list__title__span:hover{
+  color: #4a90e2;
+}
+
+.active{
+  opacity: 1;
+  visibility: visible;
+}
+
+.plan__showList__delete{
+  height: 25px;
+}
+
+.plan__show__input,.form__addcard__input {
+  outline: none;
+  resize: none;
+  height: 32px;
+  border-radius: 5px;
+}
+
+.plan__show__input{
+  display: none;
+  position: absolute;
+  top: 14px;
+  border: 2px solid #4a90e2;
+}
+
+.form__addcard__input{
+  border: none;
+  background-color: transparent;
+}
+
+.form__addcard__input:focus{
+  height: 56px;
+  box-shadow: inset 0 0 0 1px #091e4224; /* سایه داخلی */
+  background-color: #ffffff;
+}
+
+.plan__cards{
+  list-style: none;
+}
+
+.plan__card{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.plan__card__edit,.plan__card__delete{
+  height: 23px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease-in-out;
+}
+
+.plan__card:hover .plan__card__edit,.plan__card:hover .plan__card__delete{
+  opacity: 1;
+  visibility: visible;
+
+}
+
+.form__addCard__btn__add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 110px;
+}
+
+.form__addCard__btn__add img{
+  height: 18px;
+}
+
+
+
+@media (max-width: 640px) {
+  .plan {
+    padding: 0 1rem 0 1.5rem;
+  }
+}

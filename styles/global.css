@@ -11,13 +11,20 @@
 
 }
 
+/* ===== Scrollbar CSS ===== */
+html {
+    scrollbar-color: var(--text-black) var(--color-white); 
+    scrollbar-width: thin; 
+}
+
+
 body {
     background-color: var(--color-white);
     font-family: YekanBakhMedium, Arial, Helvetica, sans-serif;
     min-width: 100vw;
     min-height: 100vh;
 }
-
+  
 
 /* Header */
 header{
@@ -167,8 +174,8 @@ header ul {
     position: fixed;
     top: 0;
     left: 0;
-    backdrop-filter: blur(10px);
-    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 100;
     opacity: 0;
     visibility: hidden;
@@ -267,12 +274,12 @@ header ul {
 }
 
 
-.login-form svg {
+.login-form svg,.user-name img,.password img{
     height: 30px;
     margin: 3px 10px 5px 20px;
 }
 
-button {
+.login-form__btn {
     border: none;
     border-radius: 25px;
     width: 100%;
@@ -288,7 +295,7 @@ button {
 
 }
 
-button:hover {
+.login-form__btn:hover {
     background: #3B7BCC;
     font-size: 25px;
     box-shadow: 3px 3px 8px #828b8b, -3px -3px 8px #91b4dd;
@@ -519,12 +526,12 @@ button:hover {
         padding: 15px 15px 15px 3px;
     }
 
-    button {
+    .login-form__btn {
         height: 45px;
         font-size: 20px;
     }
 
-    button:hover {
+    .login-form__btn:hover {
         font-size: 22px;
     }
 
