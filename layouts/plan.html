@@ -63,14 +63,15 @@
 
     <!-- paln page -->
     <main class="plan">
-      <div class="plan__list">
-        <div class="addList">
+      <a href="#" class="plan__background"></a>
+      <div class="plan__list" style="display: block;">
+        <div class="addList active">
           <button class="addList__btn" type="button">
             <img src="../images/add_arrow.svg" alt="" />
             Add a list
           </button>
         </div>
-        <!-- plan__list__form -->
+        <!-- create list  -->
         <form class="plan__list__form">
           <textarea
             class="form__addList__input"
@@ -84,12 +85,17 @@
             </button>
           </div>
         </form>
-        <!-- plan__show__list -->
+        <!-- Display a list of cards -->
+        <!-- Implement CRUD operations for each card:
+             - Create: Add a new card
+             - Read: View card details
+             - Update: Edit card information
+             - Delete: Remove a card -->
         <article class="plan__show__list">
-          <div class="list__title">
+          <div class="list__title" >
             <h2 class="list__title__h2"></h2>
             <span class="list__title__span">...</span>
-            <div class="plan__show__menuList active">
+            <div class="plan__show__menuList">
               <img
                 class="plan__showList__delete"
                 src="../images/delete_icon.svg"
@@ -102,10 +108,8 @@
             placeholder="Enter list name…"
           ></textarea>
           <ul class="plan__cards">
-            <li>
-              <form class="plan__cards__form">
+            <li class="plan__cards__form">
                 <div class="plan__card">
-                  <!-- disabled -->
                   <textarea
                     class="form__addcard__input"
                     placeholder="Enter a title card"
@@ -122,19 +126,26 @@
                   />
                 </div>
                 <div class="form__card__btns">
-                  <button class="form__addCard__btn__add">
-                    <img src="../images/add_arrow.svg" alt="" />
+                  <button class="form__addCard__btn__add transparent" >
+                    <span class="form__addCard__btn__add__span"> + </span>
                     Add Card
                   </button>
-                  <button class="form__addCard__btn__delet" type="button">
-                    <img src="../images/close_icon.svg" alt="" />
+                  <button class="save__card__btn" >
+                    Add Card
                   </button>
+                  <button class="edit__card__btn" >
+                    Save Card
+                  </button>
+  
+                  <span class="form__addCard__btn__delet" >
+                    <img src="../images/close_icon.svg" alt="" />
+                  </span>
                 </div>
-              </form>
             </li>
           </ul>
         </article>
       </div>
+  
     </main>
     <!-- paln page -->
 
@@ -196,5 +207,6 @@
 
     <script type="module" src="../js/index.js"></script>
     <script type="module" src="../js/plan.js"></script>
+
   </body>
 </html>
