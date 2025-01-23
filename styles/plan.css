@@ -24,6 +24,8 @@
   scrollbar-width: thin;
 }
 
+
+
 .plan__background {
   display: none;
   position: absolute;
@@ -42,6 +44,7 @@
   width: 272px;
   border-radius: 12px;
 }
+
 
 .addList {
   display: none;

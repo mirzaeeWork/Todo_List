@@ -33,63 +33,124 @@ const userIndex = infoUsers.findIndex(
 
 // ***********************************
 // Function
-// const showAllLists__cards = () => {
-//   const user = infoUsers[userIndex];
-//   let html = "";
+const showAllLists__cards = () => {
+  const user = infoUsers[userIndex];
+  let html = "";
 
-//   if (!user.lists) addHtmlPlanList();
-//   user.lists.map(({ nameList, cards }) => {
-//     console.log(nameList, cards);
-//     html += _renderAllLists__cards(nameList, cards);
-//   });
-//   plan.insertAdjacentHTML("beforeend", html);
-// };
+  if (!user.lists) {
+    addHtmlPlanList();
+    return;
+  }
 
-// const _renderAllLists__cards = (nameList, cards) => {
-//   return `  
-//   <div class="plan__list">
-//     <article class="plan__show__list" style="display: block;" >
-//       <div class="list__title">
-//         <h2 class="list__title__h2">${nameList}</h2> 
-//         <span class="list__title__span">...</span>
-//         <div class="plan__show__menuList">
-//           <img class="plan__showList__delete" src="../images/delete_icon.svg" alt="" />
-//         </div>
-//       </div>
-//       <textarea class="plan__show__input" placeholder="Enter list name…"></textarea>
-//     <ul class="plan__cards">
-//       ${cards
-//         .map((card) => {
-//           return `
-//           <li class="plan__cards__form">
-//             <div class="plan__card" style="display: block;">
-//               <textarea class="form__addcard__input" placeholder="Enter a title card">${card}</textarea>
-//               <img class="plan__card__edit" src="../images/edit_icon.svg" alt="" />
-//               <img class="plan__card__delete" src="../images/delete_icon.svg" alt="" />
-//             </div>
-//           </li>
-//         `;
-//         })
-//         .join("")}
-//       <div class="form__card__btns">
-//               <button class="form__addCard__btn__add transparent">
-//                 <span class="form__addCard__btn__add__span"> + </span> Add Card
-//               </button>
-//               <button class="save__card__btn">Add Card</button>
-//               <button class="edit__card__btn">Save Card</button>
-//               <span class="form__addCard__btn__delet">
-//                 <img src="../images/close_icon.svg" alt="" />
-//               </span>
-//       </div>
-//     </ul>
+  user.lists.map(({id, nameList, cards }) => {
+    html += _renderAllLists__cards(id,nameList, cards);
+  });
+  plan.insertAdjacentHTML("beforeend", html);
+  addHtmlPlanList();
+};
 
-//     </article>
-//   </div>
-//   `;
-// };
+const _renderAllLists__cards = (id,nameList, cards) => {
+  const newId = +(Date.now() + "").slice(-10);
+
+  return `  
+  <div class="plan__list" data-id="${id}">
+    <article class="plan__show__list" style="display: block;" >
+      <div class="list__title">
+        <h2 class="list__title__h2">${nameList}</h2> 
+        <span class="list__title__span">...</span>
+        <div class="plan__show__menuList">
+          <img class="plan__showList__delete" src="../images/delete_icon.svg" alt="" />
+        </div>
+      </div>
+      <textarea class="plan__show__input" placeholder="Enter list name…"></textarea>
+    <ul class="plan__cards">
+      ${cards
+        .map((card) => {
+          return `
+                  <li class="plan__cards__form" data-id="${card.id}">
+            <div class="plan__card" style="display: flex;">
+              <textarea
+                class="form__addcard__input"
+                placeholder="Enter a title card"
+              >${card.nameCard}</textarea>
+              <img
+                class="plan__card__edit"
+                style="display: block;"
+                src="../images/edit_icon.svg"
+                alt=""
+              />
+              <img
+                class="plan__card__delete"
+                style="display: block;"
+                src="../images/delete_icon.svg"
+                alt=""
+              />
+            </div>
+            <div class="form__card__btns">
+              <button class="form__addCard__btn__add transparent" style="display: none;">
+                <span class="form__addCard__btn__add__span"> + </span>
+                Add Card
+              </button>
+              <button class="save__card__btn" >
+                Add Card
+              </button>
+              <button class="edit__card__btn" >
+                Save Card
+              </button>
+
+              <span class="form__addCard__btn__delet" >
+                <img src="../images/close_icon.svg" alt="" />
+              </span>
+            </div>
+        </li>
+
+        `;
+        })
+        .join("")}
+        <li class="plan__cards__form" data-id="${newId}">
+            <div class="plan__card">
+              <textarea
+                class="form__addcard__input"
+                placeholder="Enter a title card"
+              ></textarea>
+              <img
+                class="plan__card__edit"
+                src="../images/edit_icon.svg"
+                alt=""
+              />
+              <img
+                class="plan__card__delete"
+                src="../images/delete_icon.svg"
+                alt=""
+              />
+            </div>
+            <div class="form__card__btns">
+              <button class="form__addCard__btn__add transparent" >
+                <span class="form__addCard__btn__add__span"> + </span>
+                Add Card
+              </button>
+              <button class="save__card__btn" >
+                Add Card
+              </button>
+              <button class="edit__card__btn" >
+                Save Card
+              </button>
+
+              <span class="form__addCard__btn__delet" >
+                <img src="../images/close_icon.svg" alt="" />
+              </span>
+            </div>
+        </li>
+    </ul>
+
+    </article>
+  </div>
+  `;
+};
 
 const verifyUser = (user) => {
   if (!user) window.location.href = "/index.html";
+  showAllLists__cards();
 };
 
 const AddList = (e) => {
@@ -114,8 +175,9 @@ const AddList = (e) => {
 
   // Update the user's data by adding the list
   const user = infoUsers[userIndex];
+  const id = e.target.closest(".plan__list").dataset.id;
   if (!user.lists) user.lists = [];
-  user.lists.push({ nameList: formAddListInput, cards: [] });
+  user.lists.push({id,nameList: formAddListInput, cards: [] });
 
   // Save the updated infoUsers array back to localStorage
   localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
@@ -127,6 +189,7 @@ const AddList = (e) => {
   planShowList.classList.toggle("active");
   listTitleH2.innerHTML = formAddListInput;
   addHtmlPlanList();
+  addHtmlAddCard();
 };
 
 const cancleList = (e) => {
@@ -221,80 +284,47 @@ const editTitleList = (e) => {
 };
 
 const addHtmlPlanList = () => {
-  const html = `  <div class="plan__list">
-    <div class="addList active">
-      <button class="addList__btn" type="button">
-        <img src="../images/add_arrow.svg" alt="" />
-        Add a list
+  const id = +(Date.now() + "").slice(-10);
+  const html = `  <div class="plan__list" data-id="${id}">
+  <div class="addList active">
+    <button class="addList__btn" type="button">
+      <img src="../images/add_arrow.svg" alt="" />
+      Add a list
+    </button>
+  </div>
+  <form class="plan__list__form">
+    <textarea
+      class="form__addList__input"
+      spellcheck="false"
+      placeholder="Enter list name…"
+    ></textarea>
+    <div class="form__btns">
+      <button class="form__addList__btn__add">Add list</button>
+      <button class="form__addList__btn__delet" type="button">
+        <img src="../images/close_icon.svg" alt="" />
       </button>
     </div>
-    <form class="plan__list__form">
-      <textarea
-        class="form__addList__input"
-        spellcheck="false"
-        placeholder="Enter list name…"
-      ></textarea>
-      <div class="form__btns">
-        <button class="form__addList__btn__add">Add list</button>
-        <button class="form__addList__btn__delet" type="button">
-          <img src="../images/close_icon.svg" alt="" />
-        </button>
+  </form>
+  <article class="plan__show__list">
+    <div class="list__title">
+      <h2 class="list__title__h2"></h2>
+      <span class="list__title__span">...</span>
+      <div class="plan__show__menuList">
+        <img
+          class="plan__showList__delete"
+          src="../images/delete_icon.svg"
+          alt=""
+        />
       </div>
-    </form>
-    <article class="plan__show__list">
-      <div class="list__title">
-        <h2 class="list__title__h2"></h2>
-        <span class="list__title__span">...</span>
-        <div class="plan__show__menuList">
-          <img
-            class="plan__showList__delete"
-            src="../images/delete_icon.svg"
-            alt=""
-          />
-        </div>
-      </div>
-      <textarea
-        class="plan__show__input"
-        placeholder="Enter list name…"
-      ></textarea>
-      <ul class="plan__cards">
-        <li class="plan__cards__form">
-            <div class="plan__card">
-              <textarea
-                class="form__addcard__input"
-                placeholder="Enter a title card"
-              ></textarea>
-              <img
-                class="plan__card__edit"
-                src="../images/edit_icon.svg"
-                alt=""
-              />
-              <img
-                class="plan__card__delete"
-                src="../images/delete_icon.svg"
-                alt=""
-              />
-            </div>
-            <div class="form__card__btns">
-              <button class="form__addCard__btn__add transparent" >
-                <span class="form__addCard__btn__add__span"> + </span>
-                Add Card
-              </button>
-              <button class="save__card__btn" >
-                Add Card
-              </button>
-              <button class="edit__card__btn" >
-                Save Card
-              </button>
-
-              <span class="form__addCard__btn__delet" >
-                <img src="../images/close_icon.svg" alt="" />
-              </span>
-            </div>
-        </li>
-      </ul>
-    </article>
-  </div>
+    </div>
+    <textarea
+      class="plan__show__input"
+      placeholder="Enter list name…"
+    ></textarea>
+    <ul class="plan__cards">
+    </ul>
+  </article>
+</div>
 `;
   plan.insertAdjacentHTML("beforeend", html);
 };
@@ -318,8 +348,9 @@ const showFormCard = (e) => {
 const addCard = (e) => {
   e.preventDefault();
   const trimmedValue = formAddcardInput.value.trim();
+  const id = e.target.closest(".plan__cards__form").dataset.id;
 
-  console.log("handlePlanCardsForm :", trimmedValue);
+
   if (!trimmedValue) {
     setAlert("#F9cccc", "#E63535", "Field must be filled");
     return;
@@ -330,7 +361,7 @@ const addCard = (e) => {
   );
 
   if (listIndex > -1) {
-    user.lists[listIndex].cards.push(trimmedValue);
+    user.lists[listIndex].cards.push({id,nameCard:trimmedValue});
     localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
     formCardBtns.style.display = "none";
     formAddcardInput.disabled = true;
@@ -341,8 +372,6 @@ const addCard = (e) => {
 };
 
 const cancleCard = () => {
-  console.log("cancleCard");
-
   planCard.style.display = "none";
   formFddCardBtnDelet.style.display = "none";
   formAddCardBtnAdd.style.display = "block";
@@ -369,13 +398,13 @@ const editCard = () => {
   );
 
   let cardIndex = user.lists[listIndex].cards.findIndex(
-    (card) => card === beforeChangeInput
+    (card) => card.nameCard === beforeChangeInput
   );
 
   //  برای ذخیره تغییرات
   if (listIndex > -1) {
     const trimmedValue = formAddcardInput.value.trim();
-    user.lists[listIndex].cards[cardIndex] = trimmedValue;
+    user.lists[listIndex].cards[cardIndex].nameCard = trimmedValue;
     localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
     formAddcardInput.disabled = true;
     formCardBtns.style.display = "none";
@@ -387,9 +416,9 @@ const deleteCard = () => {
   const listIndex = user.lists.findIndex(
     (list) => list.nameList === listTitleH2.textContent
   );
-  console.log(formAddcardInput.value);
+
   let cardIndex = user.lists[listIndex].cards.findIndex(
-    (card) => card === formAddcardInput.value
+    (card) => card.nameCard === formAddcardInput.value
   );
   user.lists[listIndex].cards.splice(cardIndex, 1);
   localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
@@ -397,8 +426,10 @@ const deleteCard = () => {
 };
 
 const addHtmlAddCard = () => {
+  const id = +(Date.now() + "").slice(-10);
+
   const html = `
-        <li class="plan__cards__form">
+        <li class="plan__cards__form" data-id="${id}">
             <div class="plan__card">
               <textarea
                 class="form__addcard__input"
@@ -496,7 +527,7 @@ plan.addEventListener("click", function (e) {
   }
 
   if (e.target.closest(".form__addCard__btn__add")) showFormCard(e);
-  // console.log(e.target)
+  console.log(e.target)
   if (e.target.closest(".save__card__btn")) addCard(e);
 
   if (e.target.closest(".form__addCard__btn__delet")) cancleCard(e);
