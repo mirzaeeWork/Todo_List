@@ -248,7 +248,7 @@
 .plan__show__input,.form__addcard__input {
   outline: none;
   resize: none;
-  height: 32px;
+  height: 45px;
   border-radius: 5px;
 }
 
@@ -265,7 +265,7 @@
 }
 
 .form__addcard__input:focus{
-  height: 56px;
+  /* height: 56px; */
   box-shadow: inset 0 0 0 1px #091e4224; /* سایه داخلی */
   background-color: #ffffff;
 }
@@ -287,12 +287,12 @@
   display: flex;
   align-items: start;
   justify-content: center;
-
 }
 
 .plan__card__edit,.plan__card__delete{
   display: none;
-  height: 23px;
+  height: 28px;
+  width: 28px;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
