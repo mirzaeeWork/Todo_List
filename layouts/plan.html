@@ -63,7 +63,9 @@
 
     <!-- paln page -->
     <main class="plan">
-      <a href="#" class="plan__background"></a>
+      <a href="#" class="plan__background "></a>
+      <a href="#" class="card__background"></a>
+      <a href="#" class="plan__transparent"></a>
       <div class="plan__list " style="display: none;">
         <div class="addList active">
           <button class="addList__btn" type="button">
@@ -81,7 +83,7 @@
           <div class="form__btns">
             <button class="form__addList__btn__add">Add list</button>
             <button class="form__addList__btn__delet" type="button">
-              <img src="../images/close_icon.svg" alt="" />
+              <img class="form__addList__btn__delet__img" src="../images/close_icon.svg" alt="" />
             </button>
           </div>
         </form>
@@ -92,6 +94,8 @@
              - Update: Edit card information
              - Delete: Remove a card -->
         <article class="plan__show__list">
+          <div class="overlay__addCard"></div>
+          <div class="overlay"></div>
           <div class="list__title" >
             <h2 class="list__title__h2"></h2>
             <span class="list__title__span">...</span>
@@ -136,6 +140,9 @@
                   <button class="edit__card__btn" >
                     Save Card
                   </button>
+                  <span class="edit__addCard__btn__cancle" >
+                    <img src="../images/close_icon.svg" alt="" />
+                  </span>
   
                   <span class="form__addCard__btn__delet" >
                     <img src="../images/close_icon.svg" alt="" />

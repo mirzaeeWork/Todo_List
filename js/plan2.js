@@ -11,26 +11,24 @@ let planList,
   listTitleSpan,
   planCardsForm,
   formFddCardBtnDelet,
+  formAddListInput,
   planCard,
   planCardEdit,
   planCardDelete,
   formAddCardBtnAdd,
   formAddcardInput,
-  editCardBtn,
+  editCardBtnCancle,
   beforeChangeInput,
-  formAddListInput,
-  formAddListBtnAdd,
-  editAddCardBtnCancle,
   overlay,
-  overlayAddCard,
-  saveCardBtn,
-  idPlanCardsForm,
   formCardBtns;
 
 const plan = document.querySelector(".plan");
 const planBackground = document.querySelector(".plan__background");
-const cardBackground = document.querySelector(".card__background");
-const planTransparent = document.querySelector(".plan__transparent");
+const cardBackground= document.querySelector(".card__background");
+let isfocouceInputAddList = false;
+let isfocouceInputAddCard = false;
+let isfocouceInputEdirCard = false;
+
 
 let infoUsers = JSON.parse(localStorage.getItem("InfoUsers")) || [];
 const loginInfoUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -63,8 +61,7 @@ const _renderAllLists__cards = (id, nameList, cards) => {
   return `  
   <div class="plan__list" data-id="${id}">
     <article class="plan__show__list" style="display: block;" >
-    <div class="overlay__addCard"></div>
-      <div class="overlay"></div>
+     <div class="overlay"></div>
       <div class="list__title">
         <h2 class="list__title__h2">${nameList}</h2> 
         <span class="list__title__span">...</span>
@@ -101,16 +98,6 @@ const _renderAllLists__cards = (id, nameList, cards) => {
                 <span class="form__addCard__btn__add__span"> + </span>
                 Add Card
               </button>
-              <button class="save__card__btn" >
-                Add Card
-              </button>
-              <button class="edit__card__btn" >
-                Save Card
-              </button>
-              <span class="edit__addCard__btn__cancle" >
-                <img src="../images/close_icon.svg" alt="" />
-              </span>
-
               <span class="form__addCard__btn__delet" >
                 <img src="../images/close_icon.svg" alt="" />
               </span>
@@ -142,15 +129,6 @@ const _renderAllLists__cards = (id, nameList, cards) => {
                 <span class="form__addCard__btn__add__span"> + </span>
                 Add Card
               </button>
-              <button class="save__card__btn" >
-                Add Card
-              </button>
-              <button class="edit__card__btn" >
-                Save Card
-              </button>
-              <span class="edit__addCard__btn__cancle" >
-                <img src="../images/close_icon.svg" alt="" />
-              </span>
               <span class="form__addCard__btn__delet" >
                 <img src="../images/close_icon.svg" alt="" />
               </span>
@@ -168,39 +146,37 @@ const verifyUser = (user) => {
   showAllLists__cards();
 };
 
-const handleInputAddList = (e) => {
-  addList.classList.toggle("active");
-  planListForm.classList.toggle("active");
-  const formAddListInput = planListForm.querySelector(".form__addList__input");
-  const formAddListBtnAdd = planListForm.querySelector(
-    ".form__addList__btn__add"
-  );
-  formAddListInput.focus();
-  formAddListBtnAdd.disabled = true;
-  formAddListBtnAdd.classList.add("save__card__btn__disable");
+const handleAddList = (e) => {
+  if (formAddListInput && isfocouceInputAddList) {
+    console.log(e.target);
+    console.log("isfocouceInputAddList :", isfocouceInputAddList);
+    // مدیریت فشردن کلید Enter
+    const handleEnterFormAddListInput = (e) => {
+      if (e.key === "Enter" && !formAddListInput.dataset.eventsAdded) {
+        console.log(111111111);
+        isfocouceInputAddList = false;
+        AddList(e);
+        formAddListInput.dataset.eventsAdded = true;
+      }
+    };
 
-  formAddListInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
+    formAddListInput.addEventListener("keydown", handleEnterFormAddListInput);
+
+    if (
+      !e.target.closest(".form__addList__btn__delet") &&
+      !e.target.closest(".addList__btn")
+    ) {
+      console.log(2222222222);
       AddList(e);
     }
-  });
-
-  formAddListInput.addEventListener("input", (e) => {
-    if (formAddListInput.value.trim() !== "") {
-      formAddListBtnAdd.disabled = false;
-      formAddListBtnAdd.classList.remove("save__card__btn__disable");
-    } else {
-      formAddListBtnAdd.disabled = true;
-      formAddListBtnAdd.classList.add("save__card__btn__disable");
-    }
-  });
+  }
 };
 
 const AddList = (e) => {
   e.preventDefault();
 
   // Access the input element and get its trimmed value
-  const formAddListInputElement = planListForm.querySelector(
+  const formAddListInputElement = planList.querySelector(
     ".form__addList__input"
   );
   const formAddListInput = formAddListInputElement.value.trim();
@@ -233,12 +209,14 @@ const AddList = (e) => {
   listTitleH2.innerHTML = formAddListInput;
   addHtmlPlanList();
   addHtmlAddCard();
+  isfocouceInputAddList = false;
 };
 
 const cancleList = (e) => {
   e.preventDefault();
   planListForm.classList.toggle("active");
   addList.classList.toggle("active");
+  formAddListInput.value = "";
 };
 
 const handleShowMenudeleteList = (e) => {
@@ -277,7 +255,7 @@ const handleClickOutsideListTitleMenu = () => {
   planShowMenuList.classList.remove("active__opacity");
   planBackground.classList.remove("active");
   listTitleSpan.classList.remove("list__title__span__active");
-  planShowList.style.zIndex = "1";
+  planShowList.style.zIndex = "0";
 };
 
 const editTitleList = (e) => {
@@ -295,12 +273,6 @@ const editTitleList = (e) => {
 
   // تابع برای ذخیره تغییرات
   const saveTitle = () => {
-    if (planShowInput.value === "") {
-      setAlert("#F9cccc", "#E63535", "Field must be filled");
-      listTitleH2.style.display = "block";
-      planShowInput.style.display = "none";
-      return;
-    }
     if (planShowInput.value.trim() !== listTitleH2.textContent.trim()) {
       const user = infoUsers[userIndex];
       const listIndex = user.lists.findIndex(
@@ -343,19 +315,16 @@ const addHtmlPlanList = () => {
   <form class="plan__list__form">
     <textarea
       class="form__addList__input"
-      spellcheck="false"
       placeholder="Enter list name…"
     ></textarea>
     <div class="form__btns">
-      <button class="form__addList__btn__add">Add list</button>
       <button class="form__addList__btn__delet" type="button">
         <img src="../images/close_icon.svg" alt="" />
       </button>
     </div>
   </form>
   <article class="plan__show__list">
-  <div class="overlay__addCard"></div>
-    <div class="overlay"></div>
+   <div class="overlay"></div>
     <div class="list__title">
       <h2 class="list__title__h2"></h2>
       <span class="list__title__span">...</span>
@@ -389,40 +358,15 @@ const showFormCard = (e) => {
   formFddCardBtnDelet.style.display = "block";
   planCard.classList.toggle("active__plan__card");
   formAddCardBtnAdd.style.display = "none";
-  saveCardBtn.style.display = "block";
-  planTransparent.style.display = "block";
-  overlayAddCard.style.display = "block";
-  planCardsForm.classList.toggle("add__card__active");
-  idPlanCardsForm = e.target.closest(".plan__cards__form").dataset.id;
-
   // فوکوس دادن به ورودی
   formAddcardInput.focus();
-  saveCardBtn.disabled = true;
-  saveCardBtn.classList.add("save__card__btn__disable");
-
-  formAddcardInput.addEventListener("keydown", (e) => {
-    console.log(saveCardBtn.style.display);
-    if (e.key === "Enter" && saveCardBtn.style.display === "block") {
-      console.log(88888);
-      addCard(e);
-      _handleElementsAddCards();
-    }
-  });
-
-  formAddcardInput.addEventListener("input", (e) => {
-    if (formAddcardInput.value.trim() !== "") {
-      saveCardBtn.disabled = false;
-      saveCardBtn.classList.remove("save__card__btn__disable");
-    } else {
-      saveCardBtn.disabled = true;
-      saveCardBtn.classList.add("save__card__btn__disable");
-    }
-  });
+  isfocouceInputAddCard = true;
 };
 
 const addCard = (e) => {
   e.preventDefault();
   const trimmedValue = formAddcardInput.value.trim();
+  const id = e.target.closest(".plan__cards__form").dataset.id;
 
   if (!trimmedValue) {
     setAlert("#F9cccc", "#E63535", "Field must be filled");
@@ -434,10 +378,7 @@ const addCard = (e) => {
   );
 
   if (listIndex > -1) {
-    user.lists[listIndex].cards.push({
-      id: idPlanCardsForm,
-      nameCard: trimmedValue,
-    });
+    user.lists[listIndex].cards.push({ id, nameCard: trimmedValue });
     localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
     formCardBtns.style.display = "none";
     formAddcardInput.disabled = true;
@@ -447,101 +388,73 @@ const addCard = (e) => {
   }
 };
 
-// const cancleCard = () => {
-//   planCard.style.display = "none";
-//   formFddCardBtnDelet.style.display = "none";
-//   formAddCardBtnAdd.style.display = "block";
-//   saveCardBtn.style.display = "none";
-// };
-
-const cancleCard = (e) => {
+const handleAddCard = (e) => {
   e.preventDefault();
+  if (formAddcardInput && isfocouceInputAddCard) {
+    // مدیریت فشردن کلید Enter
+    const handleEnterFormAddCardInput = (e) => {
+      if (e.key === "Enter" && !formAddcardInput.dataset.eventsAdded) {
+        isfocouceInputAddCard = false;
+        addCard(e);
+        formAddcardInput.dataset.eventsAdded = true;
+      }
+    };
 
-  // پیدا کردن عنصر li که id آن برابر با idPlanCardsForm است
-  const liElement = document.querySelector(`li[data-id="${idPlanCardsForm}"]`);
+    formAddcardInput.addEventListener("keydown", handleEnterFormAddCardInput);
 
-  if (liElement) {
-    // حذف عنصر li
-    liElement.remove();
+    if (
+      !e.target.closest(".form__addCard__btn__delet") &&
+      !e.target.closest(".form__addCard__btn__add") &&
+      !e.target.closest(".plan__card__edit") &&
+      !e.target.closest(".plan__card__delete")
+    ) {
+      addCard(e);
+    }
   }
-
-  // اجرای تابع addHtmlAddCard
-  addHtmlAddCard();
 };
 
-const handleElementsEditCards = (isBack) => {
-  formCardBtns.style.display = "none";
-  cardBackground.style.display = "none";
-  overlay.style.display = "none";
-  planCardsForm.classList.toggle("edit__card__active");
-  planCardEdit.style.visibility = "visible";
-  planCardDelete.style.visibility = "visible";
-  formAddcardInput.disabled = true;
-  if (isBack) formAddcardInput.value = beforeChangeInput;
-};
-
-const handleElementsAddCards = (e) => {
-  cancleCard(e);
-  _handleElementsAddCards();
-};
-
-const _handleElementsAddCards = () => {
-  planTransparent.style.display = "none";
-  overlayAddCard.style.display = "none";
-  planCardsForm.classList.toggle("add__card__active");
+const cancleCard = () => {
+  planCard.style.display = "none";
+  formFddCardBtnDelet.style.display = "none";
+  formAddCardBtnAdd.style.display = "block";
+  formAddcardInput.value = "";
+  isfocouceInputAddCard = false;
 };
 
 const showEditCard = (e) => {
-  formCardBtns.style.display = "flex";
-  formAddCardBtnAdd.style.display = "none";
-  saveCardBtn.style.display = "none";
-  formFddCardBtnDelet.style.display = "none";
-  editAddCardBtnCancle.style.display = "block";
-  editCardBtn.style.display = "block";
   cardBackground.style.display = "block";
   overlay.style.display = "block";
   planCardsForm.classList.toggle("edit__card__active");
-  planCardEdit.style.visibility = "hidden";
-  planCardDelete.style.visibility = "hidden";
+  planCardEdit.style.visibility='hidden';
+  planCardDelete.style.visibility='hidden';
   formAddcardInput.disabled = false;
   formAddcardInput.focus();
   beforeChangeInput = formAddcardInput.value.trim();
-
-  editCardBtn.disabled = true;
-  editCardBtn.classList.add("save__card__btn__disable");
-
-  let flagEvents = false;
-
-  formAddcardInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !flagEvents) {
-      const trimmedValue = formAddcardInput.value.trim();
-      if (!trimmedValue) {
-        setAlert("#F9cccc", "#E63535", "Field must be filled");
-        return;
-      }
-      editCard(e);
-      handleElementsEditCards();
-      flagEvents = true;
-    }
-  });
-
-  formAddcardInput.addEventListener("input", (e) => {
-    if (formAddcardInput.value.trim() !== "") {
-      editCardBtn.disabled = false;
-      editCardBtn.classList.remove("save__card__btn__disable");
-    } else {
-      editCardBtn.disabled = true;
-      editCardBtn.classList.add("save__card__btn__disable");
-    }
-  });
+  isfocouceInputEdirCard = true;
 };
 
+const handleClickOutsideCard = () => {
+
+}
+
+const handleElementsEditCards = () => {
+  // formCardBtns.style.display = "none";
+  // formAddCardBtnAdd.style.display = "block";
+  // formFddCardBtnDelet.style.display = "none";
+  // editCardBtnCancle.style.display = "none";
+  // formAddcardInput.disabled = true;
+  // formAddcardInput.value = beforeChangeInput;  
+
+  cardBackground.style.display = "none";
+  overlay.style.display = "none";
+  planCardsForm.classList.toggle("edit__card__active");
+  planCardEdit.style.visibility='visible';
+  planCardDelete.style.visibility='visible';
+  formAddcardInput.disabled = true;
+  isfocouceInputEdirCard = false;
+}
+
 const editCard = () => {
-  const trimmedValue = formAddcardInput.value.trim();
-  if (!trimmedValue) {
-    setAlert("#F9cccc", "#E63535", "Field must be filled");
-    return;
-  }
 
   const user = infoUsers[userIndex];
   const listIndex = user.lists.findIndex(
@@ -552,8 +465,6 @@ const editCard = () => {
     (card) => card.nameCard === beforeChangeInput
   );
 
-  if (!user.lists[listIndex].cards[cardIndex].nameCard) return;
-
   //  برای ذخیره تغییرات
   if (listIndex > -1) {
     const trimmedValue = formAddcardInput.value.trim();
@@ -563,6 +474,54 @@ const editCard = () => {
     formCardBtns.style.display = "none";
   }
 };
+
+const handleEditCard =(e) => {
+  e.preventDefault();
+  if (formAddcardInput && isfocouceInputEdirCard) {
+    console.log(555555555555)
+    // مدیریت فشردن کلید Enter
+    const handleEnterFormAddCardInput = (e) => {
+      if (e.key === "Enter" && !formAddcardInput.dataset.eventsAdded) {
+        console.log('editCard111111111');
+        if (!formAddcardInput.value) {
+          setAlert("#F9cccc", "#E63535", "Field must be filled");
+          return;
+        }      
+        editCard(e);
+        handleElementsEditCards();
+        formAddcardInput.dataset.eventsAdded = true;
+      }
+
+    };
+
+    formAddcardInput.addEventListener("keydown", handleEnterFormAddCardInput);
+
+    formAddcardInput.addEventListener("blur", (e) => {
+      console.log('editCard222222');
+
+      if (!formAddcardInput.value) {
+        setAlert("#F9cccc", "#E63535", "Field must be filled");
+        return;
+      }     
+      editCard(e);
+      handleElementsEditCards();
+    });
+
+    // if (
+    //   !e.target.closest(".form__addcard__input") &&
+    //   !e.target.closest(".form__addCard__btn__add") &&
+    //   !e.target.closest(".plan__card__edit") &&
+    //   !e.target.closest(".plan__card__delete") &&
+    //   !e.target.closest(".form__addcard__input") &&
+    //   !formAddcardInput.dataset.eventsAdded
+    // ) {
+    //   console.log('editCard222222');
+    //     isfocouceInputAddCard = false;
+    //     editCard(e);
+    //     handleElementsEditCards();
+    // }
+  }
+}
 
 const deleteCard = () => {
   const user = infoUsers[userIndex];
@@ -576,42 +535,6 @@ const deleteCard = () => {
   user.lists[listIndex].cards.splice(cardIndex, 1);
   localStorage.setItem("InfoUsers", JSON.stringify(infoUsers));
   planCards.removeChild(planCardsForm);
-};
-
-const handleOverlay = () => {
-  planShowList.querySelector(".overlay").style.display = "none";
-  planShowList.querySelectorAll(".plan__cards__form").forEach((card) => {
-    if (card.classList.contains("edit__card__active")) {
-      card.classList.remove("edit__card__active");
-      card.querySelector(".form__card__btns").style.display = "none";
-      cardBackground.style.display = "none";
-      overlay.style.display = "none";
-      card.querySelector(".plan__card__edit").style.visibility = "visible";
-      card.querySelector(".plan__card__delete").style.visibility = "visible";
-      card.querySelector(".form__addcard__input").disabled = true;
-      card.querySelector(".form__addcard__input").value = beforeChangeInput;
-    }
-  });
-};
-
-const handleOverlayAddCard = () => {
-  planShowList.querySelector(".overlay__addCard").style.display = "none";
-  planShowList.querySelectorAll(".plan__cards__form").forEach((card) => {
-    if (card.classList.contains("add__card__active")) {
-      card.classList.remove("add__card__active");
-      const liElement = document.querySelector(
-        `li[data-id="${idPlanCardsForm}"]`
-      );
-      if (liElement) {
-        // حذف عنصر li
-        liElement.remove();
-      }
-      // اجرای تابع addHtmlAddCard
-      addHtmlAddCard();
-
-      planTransparent.style.display = "none";
-    }
-  });
 };
 
 const addHtmlAddCard = () => {
@@ -640,15 +563,6 @@ const addHtmlAddCard = () => {
                 <span class="form__addCard__btn__add__span"> + </span>
                 Add Card
               </button>
-              <button class="save__card__btn" >
-                Add Card
-              </button>
-              <button class="edit__card__btn" >
-                Save Card
-              </button>
-              <span class="edit__addCard__btn__cancle" >
-                <img src="../images/close_icon.svg" alt="" />
-              </span>
               <span class="form__addCard__btn__delet" >
                 <img src="../images/close_icon.svg" alt="" />
               </span>
@@ -666,11 +580,9 @@ plan.addEventListener("click", function (e) {
   planListForm = planList && planList.querySelector(".plan__list__form");
   formAddListInput =
     planList && planList.querySelector(".form__addList__input");
-  formAddListBtnAdd =
-    planList && planList.querySelector(".form__addList__btn__add");
+
   planShowList = planList && planList.querySelector(".plan__show__list");
   overlay = planList && planList.querySelector(".overlay");
-  overlayAddCard = planList && planList.querySelector(".overlay__addCard");
   listTitleH2 = planList && planList.querySelector(".list__title__h2");
   listTitleSpan = planList && planList.querySelector(".list__title__span");
   planShowMenuList =
@@ -685,88 +597,61 @@ plan.addEventListener("click", function (e) {
     planCardsForm && planCardsForm.querySelector(".plan__card__delete");
   formFddCardBtnDelet =
     planCardsForm && planCardsForm.querySelector(".form__addCard__btn__delet");
-  editAddCardBtnCancle =
-    planCardsForm && planCardsForm.querySelector(".edit__addCard__btn__cancle");
   formCardBtns =
     planCardsForm && planCardsForm.querySelector(".form__card__btns");
   formAddCardBtnAdd =
     planCardsForm && planCardsForm.querySelector(".form__addCard__btn__add");
   formAddcardInput =
     planCardsForm && planCardsForm.querySelector(".form__addcard__input");
-  saveCardBtn =
-    planCardsForm && planCardsForm.querySelector(".save__card__btn");
-  editCardBtn =
-    planCardsForm && planCardsForm.querySelector(".edit__card__btn");
+  editCardBtnCancle =
+    planCardsForm && planCardsForm.querySelector(".edit__card__btn__cancle");
 
-  try {
-    // Add List button clicked
-    if (e.target.closest(".addList__btn")) {
-      handleInputAddList(e);
-    }
-
-    // Hide the "Add List" form when the delete button is clicked
-    if (e.target.closest(".form__addList__btn__delet")) {
-      cancleList(e);
-    }
-
-    // Handle click on "Add List" form button
-    if (e.target.closest(".form__addList__btn__add")) {
-      AddList(e);
-    }
-
-    // Handles logic for toggling visibility of the menu or responding to clicks outside it.
-    handleShowMenudeleteList(e);
-
-    if (e.target.closest(".plan__showList__delete")) {
-      deleteList(e);
-    }
-
-    if (e.target.closest(".list__title__h2")) {
-      editTitleList(e);
-    }
-
-    if (e.target.closest(".form__addCard__btn__add")) showFormCard(e);
-
-    if (e.target.closest(".overlay__addCard")) handleOverlayAddCard(e);
-
-    if (e.target.closest(".save__card__btn")) {
-      addCard(e);
-      _handleElementsAddCards();
-    }
-
-    if (e.target.closest(".form__addCard__btn__delet")) {
-      cancleCard(e);
-      _handleElementsAddCards();
-    }
-
-    if (e.target.closest(".plan__card__edit")) showEditCard(e);
-
-    if (e.target.closest(".edit__card__btn")) {
-      editCard(e);
-      handleElementsEditCards();
-    }
-
-    if (e.target.closest(".edit__addCard__btn__cancle")) {
-      formAddcardInput.value = beforeChangeInput;
-      handleElementsEditCards();
-    }
-
-    if (e.target.closest(".overlay")) {
-      handleOverlay();
-    }
-
-    if (e.target.closest(".plan__card__delete")) deleteCard(e);
-  } catch (error) {
-    console.log("");
+  // Add List button clicked
+  if (e.target.closest(".addList__btn")) {
+    addList.classList.toggle("active");
+    planListForm.classList.toggle("active");
+    formAddListInput.focus();
+    isfocouceInputAddList = true;
   }
+
+  // Hide the "Add List" form when the delete button is clicked
+  if (e.target.closest(".form__addList__btn__delet")) {
+    cancleList(e);
+    isfocouceInputAddList = false;
+  }
+
+  // Handle click on "Add List" form button
+  handleAddList(e);
+
+  // Handles logic for toggling visibility of the menu or responding to clicks outside it.
+  handleShowMenudeleteList(e);
+
+  if (e.target.closest(".plan__showList__delete")) {
+    deleteList(e);
+  }
+
+  if (e.target.closest(".list__title__h2")) {
+    editTitleList(e);
+  }
+
+  if (e.target.closest(".form__addCard__btn__add")) showFormCard(e);
+
+  if (e.target.closest(".form__addCard__btn__delet")) cancleCard(e);
+
+  handleAddCard(e);
+
+  if (e.target.closest(".plan__card__edit")) showEditCard(e);
+
+
+  handleEditCard(e);
+
+
+  if (e.target.closest(".plan__card__delete")) deleteCard(e);
 });
 
 // Add an event listener for the planBackground element
 planBackground.addEventListener("click", handleClickOutsideListTitleMenu);
-planTransparent.addEventListener("click", handleElementsAddCards);
-cardBackground.addEventListener("click", () => {
-  handleElementsEditCards(true);
-});
+cardBackground.addEventListener("click", handleClickOutsideCard);
 
 // Verify the user
 verifyUser(loginInfoUser);

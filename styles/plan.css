@@ -26,25 +26,31 @@
 
 
 
-.plan__background {
+.plan__background,.card__background,.plan__transparent {
   display: none;
   position: absolute;
+  cursor: default;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(3px);
   transition: all 0.35s ease;
 }
 
+.plan__background{
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.card__background {
+  backdrop-filter: blur(3px);
+}
 
 .plan__list {
   width: 272px;
   border-radius: 12px;
 }
-
 
 .addList {
   display: none;
@@ -92,6 +98,40 @@
   box-shadow: 0px 1px 5px #0a255240, 0px 0px 5px #adbad04f;
   transition: all 0.35s ease;
   position: relative;
+}
+
+.overlay,.overlay__addCard {
+  display: none;
+  position: absolute;
+  cursor: default ;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.overlay{
+  background: rgba(255, 255, 255, 0.5); /* تنظیم شفافیت */
+  backdrop-filter: blur(5px);
+}
+
+
+.add__card__active{
+  z-index: 2;
+  /* box-shadow: 5px 1px 25px #0a255240; */
+  padding-right: 62px;
+  padding-bottom: 14px;
+padding-left: 0px;
+}
+
+.edit__card__active{
+  z-index: 2;
+  border-radius: 2px;
+  box-shadow: 5px 1px 25px #0a255240;
+  padding-left: 14px;
+  padding-bottom: 14px;
+  margin-left: -12px;
 }
 
 .form__addList__input {
@@ -150,7 +190,7 @@
   box-shadow: none;
 }
 
-.form__addList__btn__delet,.form__addCard__btn__delet {
+.form__addList__btn__delet,.form__addCard__btn__delet,.edit__addCard__btn__cancle {
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -163,7 +203,7 @@
   display: inline-block;
 }
 
-.form__addCard__btn__delet {
+.form__addCard__btn__delet,.edit__addCard__btn__cancle {
   display: none;
 }
 
@@ -248,7 +288,7 @@
 .plan__show__input,.form__addcard__input {
   outline: none;
   resize: none;
-  height: 45px;
+  height: 52px;
   border-radius: 5px;
 }
 
@@ -326,6 +366,10 @@
 .save__card__btn ,.edit__card__btn {
   display: none;
   width: 90px;
+}
+
+.save__card__btn__disable{
+  background: #9faec0;
 }
 
 
