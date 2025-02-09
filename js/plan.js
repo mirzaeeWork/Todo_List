@@ -24,6 +24,7 @@ let planList,
   overlay,
   overlayAddCard,
   saveCardBtn,
+  idPlanList,
   idPlanCardsForm,
   formCardBtns;
 
@@ -243,21 +244,33 @@ const cancleList = (e) => {
 
 const handleShowMenudeleteList = (e) => {
   e.preventDefault();
-
-  // Return early if the click is inside the ".plan__show__menuList"
-  if (e.target.closest(".plan__show__menuList")) return;
-
-  // Check if the click is outside of ".list__title__span"
-  if (!e.target.closest(".list__title__span")) {
-    handleClickOutsideListTitleMenu(); // Handle the case when clicking outside the span
-    return;
-  }
+  idPlanList = e.target.closest(".plan__list").dataset.id;
+  console.log("Computed zIndex:", getComputedStyle(planList).zIndex);
 
   // Toggle menu visibility and apply related classes and styles when ".list__title__span" is clicked
-  const isActive = planShowMenuList.classList.toggle("active__opacity");
-  planBackground.classList.toggle("active", isActive);
-  listTitleSpan.classList.toggle("list__title__span__active", isActive);
-  planShowList.style.zIndex = isActive ? "5" : "1";
+  const planLists = document.querySelectorAll(".plan__list");
+  planLists.forEach((list) => {
+    if (list.dataset.id === idPlanList) {
+      planList=list
+      planList.style.zIndex = "1";
+      planShowMenuList = list.querySelector(".plan__show__menuList");
+      planShowMenuList.classList.add("active__opacity");
+      planBackground.classList.toggle("active");
+      listTitleSpan = list.querySelector(".list__title__span");
+      listTitleSpan.classList.add("list__title__span__active");
+      planShowList = list.querySelector(".plan__show__list");
+      planShowList.style.zIndex = "5";
+    } else {
+      list.style.zIndex = "0";
+      list
+        .querySelector(".plan__show__menuList")
+        .classList.remove("active__opacity");
+      list
+        .querySelector(".list__title__span")
+        .classList.remove("list__title__span__active");
+      list.querySelector(".plan__show__list").style.zIndex = "0";
+    }
+  });
 };
 
 const deleteList = () => {
@@ -277,7 +290,7 @@ const handleClickOutsideListTitleMenu = () => {
   planShowMenuList.classList.remove("active__opacity");
   planBackground.classList.remove("active");
   listTitleSpan.classList.remove("list__title__span__active");
-  planShowList.style.zIndex = "1";
+  planShowList.style.zIndex = "0";
 };
 
 const editTitleList = (e) => {
@@ -470,6 +483,7 @@ const cancleCard = (e) => {
 };
 
 const handleElementsEditCards = (isBack) => {
+  planList.style.zIndex = "0";
   formCardBtns.style.display = "none";
   cardBackground.style.display = "none";
   overlay.style.display = "none";
@@ -492,6 +506,20 @@ const _handleElementsAddCards = () => {
 };
 
 const showEditCard = (e) => {
+  idPlanList = e.target.closest(".plan__list").dataset.id;
+
+  // Toggle menu visibility and apply related classes and styles when ".list__title__span" is clicked
+  const planLists = document.querySelectorAll(".plan__list");
+  
+  planLists.forEach((list) => {
+    if (list.dataset.id === idPlanList) {
+      planList=list
+      planList.style.zIndex = "1";
+    } else {
+      list.style.zIndex = "0";
+    }
+  });
+
   formCardBtns.style.display = "flex";
   formAddCardBtnAdd.style.display = "none";
   saveCardBtn.style.display = "none";
@@ -562,6 +590,7 @@ const editCard = () => {
     formAddcardInput.disabled = true;
     formCardBtns.style.display = "none";
   }
+
 };
 
 const deleteCard = () => {
@@ -715,7 +744,9 @@ plan.addEventListener("click", function (e) {
     }
 
     // Handles logic for toggling visibility of the menu or responding to clicks outside it.
-    handleShowMenudeleteList(e);
+    if (e.target.closest(".list__title__span")) {
+      handleShowMenudeleteList(e);
+    }
 
     if (e.target.closest(".plan__showList__delete")) {
       deleteList(e);
